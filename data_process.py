@@ -4,8 +4,8 @@ import pandas as pd
 import os
 from os.path import join,exists
 
-USER_DATA_PATH = '/code/RiskEval/data/raw/risk-ratio5.0%_trans-weight2/user_data_risk-ratio5.0%.csv'
-TRANSACTION_DATA_PATH = '/code/RiskEval/data/raw/risk-ratio5.0%_trans-weight2/transaction_risk-ratio5.0%_trans-weight2.csv'
+USER_DATA_PATH = 'preprocess/user_data_risk-ratio5.0%.csv'
+TRANSACTION_DATA_PATH = 'preprocess/transaction_risk-ratio5.0%_trans-weight4.csv'
 
 def show_basic_info(user_df,transaction_df):
     print(user_df.head())

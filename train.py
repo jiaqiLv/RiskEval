@@ -1,12 +1,19 @@
-from numpy import loadtxt
+import numpy as np
+import pandas as pd
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
 
 
-USER_DATA_PATH = '/code/RiskEval/data/processed/risk-ratio5.0%_trans-weight2/user_data_risk-ratio5.0%.csv'
+USER_DATA_PATH = 'preprocess/user_data_risk-ratio5.0%.csv'
+
+def plot_accuracy(accuracies):
+    plt.plot(accuracies)
+    plt.title('Accuracy Plot')
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -30,3 +37,5 @@ if __name__ == '__main__':
     predictions = [round(value) for value in y_pred]
     accuracy = accuracy_score(y_test, predictions)
     print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+    print(predictions)
