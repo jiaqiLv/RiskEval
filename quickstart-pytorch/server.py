@@ -1,8 +1,23 @@
+import io
+import matplotlib.pyplot as plt
 from typing import List, Tuple
 
 import flwr as fl
 from flwr.common import Metrics
 
+def plot_data(data, x_label='X', y_label='Y', title='Plot', file_name="plot.png"):
+    # 分解为两个列表
+    x_values = [i[0] for i in data]
+    y_values = [i[1] for i in data]
+
+    # 使用matplotlib进行作图
+    plt.figure()
+    plt.plot(x_values, y_values)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.title(title)
+    # plt.show()
+    plt.savefig(f"imgs/fedavg/{file_name}")
 
 # Define metric aggregation function
 def weighted_average(metrics: List[Tuple[int, Metrics]]) -> Metrics:
@@ -16,10 +31,16 @@ def weighted_average(metrics: List[Tuple[int, Metrics]]) -> Metrics:
 
 # Define strategy
 strategy = fl.server.strategy.FedAvg(evaluate_metrics_aggregation_fn=weighted_average)
+# strategy = fl.server.strategy.FedProx(evaluate_metrics_aggregation_fn=weighted_average, proximal_mu=0.01)
 
 # Start Flower server
-fl.server.start_server(
+hist = fl.server.start_server(
     server_address="0.0.0.0:8080",
-    config=fl.server.ServerConfig(num_rounds=10),
+    config=fl.server.ServerConfig(num_rounds=30),
     strategy=strategy,
 )
+
+prefix = "fedavg-3-30"
+print("-"*50)
+plot_data(hist.losses_distributed, file_name=f"{prefix}_loss.png")
+plot_data(hist.metrics_distributed.get('accuracy'), file_name=f"{prefix}_acc.png")
