@@ -17,7 +17,7 @@ def plot_data(data, x_label='X', y_label='Y', title='Plot', file_name="plot.png"
     plt.ylabel(y_label)
     plt.title(title)
     # plt.show()
-    plt.savefig(f"imgs/fedavg/{file_name}")
+    plt.savefig(f"imgs/fedprox/{file_name}")
 
 # Define metric aggregation function
 def weighted_average(metrics: List[Tuple[int, Metrics]]) -> Metrics:
@@ -30,17 +30,17 @@ def weighted_average(metrics: List[Tuple[int, Metrics]]) -> Metrics:
 
 
 # Define strategy
-strategy = fl.server.strategy.FedAvg(evaluate_metrics_aggregation_fn=weighted_average)
-# strategy = fl.server.strategy.FedProx(evaluate_metrics_aggregation_fn=weighted_average, proximal_mu=0.01)
+# strategy = fl.server.strategy.FedAvg(evaluate_metrics_aggregation_fn=weighted_average)
+strategy = fl.server.strategy.FedProx(evaluate_metrics_aggregation_fn=weighted_average, proximal_mu=0.01)
 
 # Start Flower server
 hist = fl.server.start_server(
     server_address="0.0.0.0:8080",
-    config=fl.server.ServerConfig(num_rounds=30),
+    config=fl.server.ServerConfig(num_rounds=80),
     strategy=strategy,
 )
 
-prefix = "fedavg-3-30"
+prefix = "fedprox-3-80"
 print("-"*50)
 plot_data(hist.losses_distributed, file_name=f"{prefix}_loss.png")
 plot_data(hist.metrics_distributed.get('accuracy'), file_name=f"{prefix}_acc.png")
