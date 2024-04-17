@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 # 数据加载和预处理
-df = pd.read_csv('preprocess/user_data_risk-ratio5.0%.csv')
+df = pd.read_csv('preprocess/user_data_risk-ratio30.0%.csv')
 X = df.drop(df.columns[[0, 8]], axis=1)
 y = df.iloc[:, 9]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -29,7 +29,6 @@ class RiskDataset(Dataset):
     def __len__ (self):
         return len(self.X_data)
 
-print(X_train[0])
 train_data = RiskDataset(torch.FloatTensor(X_train), 
                          torch.FloatTensor(y_train.values))
 test_data = RiskDataset(torch.FloatTensor(X_test), 
@@ -110,7 +109,7 @@ def binary_acc(y_pred, y_test):
     return acc
 
 # 开始训练和测试
-epochs = 10
+epochs = 30
 for e in range(1, epochs+1):
     train(model, criterion, optimizer, train_loader)
     if e%10 == 0:
