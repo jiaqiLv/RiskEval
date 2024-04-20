@@ -31,16 +31,22 @@ def weighted_average(metrics: List[Tuple[int, Metrics]]) -> Metrics:
 
 # Define strategy
 # strategy = fl.server.strategy.FedAvg(evaluate_metrics_aggregation_fn=weighted_average)
-strategy = fl.server.strategy.FedProx(evaluate_metrics_aggregation_fn=weighted_average, proximal_mu=0.01)
+strategy = fl.server.strategy.FedProx(evaluate_metrics_aggregation_fn=weighted_average, proximal_mu=0.001)
 
 # Start Flower server
 hist = fl.server.start_server(
     server_address="0.0.0.0:8080",
-    config=fl.server.ServerConfig(num_rounds=80),
+    config=fl.server.ServerConfig(num_rounds=30),
     strategy=strategy,
 )
 
-prefix = "fedprox-3-80"
+prefix = "mobinet-fedprox-2-30-lr_0.001"
 print("-"*50)
 plot_data(hist.losses_distributed, file_name=f"{prefix}_loss.png")
 plot_data(hist.metrics_distributed.get('accuracy'), file_name=f"{prefix}_acc.png")
+
+with open('test_record.txt', 'a+') as f:
+    f.write(prefix + '\n')
+    f.write(str(hist.losses_distributed) + '\n')
+    f.write(str(hist.metrics_distributed.get('accuracy')) + '\n')
+    f.write()

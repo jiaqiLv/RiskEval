@@ -7,7 +7,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 # 数据加载和预处理
+<<<<<<< HEAD
+df = pd.read_csv('./data/processed/risk-ratio10.0%_trans-weight3/user_data_risk-ratio10.0%.csv')
+=======
 df = pd.read_csv('preprocess/user_data_risk-ratio30.0%.csv')
+>>>>>>> 38c4503c87a9412614309137b19fd63ababdc72e
 X = df.drop(df.columns[[0, 8]], axis=1)
 y = df.iloc[:, 9]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
