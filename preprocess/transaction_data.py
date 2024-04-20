@@ -1,6 +1,6 @@
 import pandas as pd
 
-transaction_data = pd.read_csv("./datasets/transaction/transaction.csv")
+transaction_data = pd.read_csv("./data/transaction.csv")
 print(transaction_data.shape)
 # 根据用户ID分组(只取大于20条交易记录的用户)
 filtered_groups = transaction_data.groupby('CUSTOMER_ID').filter(lambda x: len(x) > 20).groupby('CUSTOMER_ID')

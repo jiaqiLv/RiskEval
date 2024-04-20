@@ -1,6 +1,6 @@
 import pandas as pd
 
-user_info_data = pd.read_csv("./datasets/user_info/train.csv")
+user_info_data = pd.read_csv("./data/user_info.csv")
 print(user_info_data.shape)
 # 先随机找出700个正常用户和300个风险用户
 normal_user_data = user_info_data[user_info_data['label'] == 0].sample(n=700)
